@@ -1,0 +1,52 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<!--<link href="main.css" rel="stylesheet">-->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+<div class="container">
+	<<form action="http://127.0.0.1:5000/search" method="POST">
+        <div class="col">
+            <input class="form-control form-control-lg form-control-borderless" type="text" name="query" placeholder="Search topics or keywords">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-lg btn-success" type="submit" formmethod="post" formaction="/search">Search</button>
+        </div>
+    </form>
+
+	{% if hits %}
+    <hgroup class="mb20">
+		<h1>Search Results</h1>
+		<h2 class="lead" id="results">About <strong>{{ num_results }}</strong> results were found for <strong >{{  query  }}</strong></h2>
+	</hgroup>
+
+    <article class="search-result row">
+
+    </article>
+
+    <section id='song_section' class="col-md-12">
+		{% for hit in hits %}
+		<article class="search-result row">
+			<div class="col-xs-12 col-sm-12 col-md-4">
+				<ul class="meta-search">
+					<li><span>Genre: {{ hit._source.Genre }} </span></li>
+					<li><span>Artist: {{ hit._source.sinhala_artist }}</span></li>
+					<li><span>Music: {{ hit._source.sinhala_music }}</span></li>
+					<li><span>Lyrics: {{ hit._source.sinhala_lyricst }}</span></li>
+				</ul>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-7">
+				<h3>{{ hit._source.title_sinhala }}</a></h3>
+				<p>{{ hit._source.lyrics }}</p>
+			</div>
+			<span class="clearfix border"></span>
+		</article>
+		{% endfor %}
+	</section>
+
+	{% else %}
+		<hgroup class="mb20">
+			<h1>Search Results</h1>
+			<h2 class="lead">no results were found for the search for <strong class="text-danger">{{  query  }}</strong></h2>
+		</hgroup>
+	{% endif %}
+</div>
